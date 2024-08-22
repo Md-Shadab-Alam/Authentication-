@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import ValidateForm from 'src/app/helper/validateform';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
   isclick: boolean = false
   loginForm: FormGroup;
 
-  constructor(private fb:FormBuilder){}
+  constructor(private fb:FormBuilder,private auth: AuthService){}
 
   ngOnInit(): void {
     console.log(this.type);
@@ -38,6 +39,17 @@ export class LoginComponent implements OnInit {
   onSubmit(){
     if(this.loginForm.valid){
       //send the object to data base
+      this.auth.login(this.loginForm.value)
+        .subscribe({
+          next:(res)=>{
+            console.log(res)
+            this.loginForm.reset();
+          },
+          error:(err)=>{
+            console.log(err.message)
+          }
+          
+        })
       console.log(this.loginForm.value);
     }
     else{
