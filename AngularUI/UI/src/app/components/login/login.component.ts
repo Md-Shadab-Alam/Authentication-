@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helper/validateform';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   isclick: boolean = false
   loginForm: FormGroup;
 
-  constructor(private fb:FormBuilder,private auth: AuthService){}
+  constructor(private fb:FormBuilder,
+              private auth: AuthService){}
 
   ngOnInit(): void {
     console.log(this.type);
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
           },
           error:(err)=>{
             console.log(err.message)
+            alert(err.error.message);
           }
           
         })
